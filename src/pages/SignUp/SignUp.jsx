@@ -6,6 +6,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import useAuth from "../../hook/useAuth";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { imageUpload } from "../../api/utils";
 
 const SignUp = () => {
   const [isShow, setIsShow] = useState(false);
@@ -23,8 +25,9 @@ const SignUp = () => {
     const email = form.email.value;
     const pass = form.password.value;
     const photo = form.photo.files[0];
-    const formData = new FormData();
-    formData.append("image", photo);
+    const imageData = await imageUpload(photo);
+    console.log(imageData);
+
     const userInfo = {
       name,
       photo,
@@ -32,7 +35,6 @@ const SignUp = () => {
       pass,
       role: "user",
     };
-    console.log(formData);
     // createUser(email, pass)
     //   .then((result) => console.log(result.user))
     //   .catch((error) => console.log(error.message));
