@@ -97,7 +97,7 @@ const Navbar = () => {
           Contact
         </Button>
       </NavLink>
-      <NavLink to={`/login`}>
+      <NavLink to={`/signIn`}>
         <Button
           className="text-secondary"
           onClick={() => {
@@ -107,7 +107,7 @@ const Navbar = () => {
           }}
           sx={{ my: 2, display: "block" }}
         >
-          Login
+          Sign in
         </Button>
       </NavLink>
     </>
