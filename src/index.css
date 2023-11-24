@@ -8,6 +8,10 @@
   font-family: 'Libre Franklin', sans
 }
 
+body {
+  background-color: #fefae0;
+}
+
 /* .title-text {
   font-family: 'Lora', serif;
 } */
