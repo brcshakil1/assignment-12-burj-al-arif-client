@@ -6,13 +6,13 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import useAuth from "../../hook/useAuth";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { imageUpload } from "../../api/utils";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [isShow, setIsShow] = useState(false);
 
-  const { createUser } = useAuth();
+  const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
 
   const handleShowPassword = () => {
     setIsShow(!isShow);
@@ -25,19 +25,56 @@ const SignUp = () => {
     const email = form.email.value;
     const pass = form.password.value;
     const photo = form.photo.files[0];
-    const imageData = await imageUpload(photo);
-    console.log(imageData);
 
-    const userInfo = {
-      name,
-      photo,
-      email,
-      pass,
-      role: "user",
-    };
+    if (name === " " || name === "") {
+      return toast.error("You have to provide a name.");
+    }
+
+    if (pass.length < 6) {
+      return toast.error("Password is less than 6 characters!");
+    }
+
+    if (!/[A-Z]/.test(pass)) {
+      return toast.error("Password Don't have a capital letter");
+    }
+    if (!/[!#$%&? "]/.test(pass)) {
+      return toast.error(
+        "Password Don't have a special character. Example: !, #, $, %, & or ?"
+      );
+    }
+
+    try {
+      // Upload image
+      const imageData = await imageUpload(photo);
+
+      // User registration
+      const result = await createUser(email, pass);
+
+      // Save user name and profile photo
+      await updateUserProfile(name, imageData?.data?.display_url);
+      console.log(result);
+      // Save user data in Database
+    } catch (err) {
+      toast.error(`Something went wrong ${err.message}`);
+    }
+
+    // const userInfo = {
+    //   name,
+    //   photo,
+    //   email,
+    //   pass,
+    //   role: "user",
+    // };
     // createUser(email, pass)
     //   .then((result) => console.log(result.user))
     //   .catch((error) => console.log(error.message));
+  };
+
+  const handleGoogleSignIn = async () => {
+    const result = await signInWithGoogle();
+    if (result.user) {
+      toast.success("User successfully signed in!");
+    }
   };
 
   return (
@@ -49,12 +86,15 @@ const SignUp = () => {
         <div className=" mx-auto md:w-[600px] py-20 text-primary">
           <h2 className="text-4xl font-semibold">Sign Up</h2>
           <Button
+            onClick={handleGoogleSignIn}
             className="my-5 text-primary gap-4 cursor-pointer w-full flex justify-center items-center border-2 border-primary rounded-full py-4 "
             variant="outlined"
           >
             {" "}
             <GoogleIcon />{" "}
-            <span className="text-lg font-medium">Sign in with google</span>
+            <span className="text-base md:text-lg font-medium">
+              Sign in with google
+            </span>
           </Button>
 
           <div className="flex justify-center items-center gap-4 pb-5">
@@ -65,50 +105,63 @@ const SignUp = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="flex flex-col space-y-2">
               <label htmlFor="name">
-                <span className="text-xl">Email</span>
+                <span className="text-lg md:text-xl">Full Name</span>
               </label>
               <input
                 id="name"
                 type="text"
                 name="name"
                 placeholder="Enter Your Full Name"
-                className="focus:border-[3px] border-2 text-primary border-primary focus:border-[#f8e565] outline-none py-3 bg-transparent rounded-lg text-xl px-2"
+                className="focus:border-[3px] border-2 text-primary
+                 border-primary focus:border-[#f8e565] outline-none bg-none
+                  py-3 bg-transparent rounded-lg text-xl px-2"
               />
             </div>
             <div className="flex flex-col space-y-2">
               <label htmlFor="photo">
-                <span className="text-xl">Email</span>
+                <span className="text-lg md:text-xl">Select Image</span>
               </label>
               <input
                 id="photo"
                 type="file"
                 name="photo"
-                placeholder="Enter Your Email"
-                className="focus:border-[3px] border-2 text-primary border-primary focus:border-[#f8e565] outline-none py-3 bg-transparent rounded-lg text-xl px-2"
+                placeholder="Select Image"
+                className="focus:border-[3px] border-2
+                 text-primary border-primary
+                  focus:border-[#f8e565] outline-none py-3
+                   bg-transparent rounded-lg text-xl px-2"
+                required
               />
             </div>
             <div className="flex flex-col space-y-2">
               <label htmlFor="email">
-                <span className="text-xl">Email</span>
+                <span className="text-lg md:text-xl">Email</span>
               </label>
               <input
                 id="email"
                 type="email"
                 name="email"
                 placeholder="Enter Your Email"
-                className="focus:border-[3px] border-2 text-primary border-primary focus:border-[#f8e565] outline-none py-3 bg-transparent rounded-lg text-xl px-2"
+                className="focus:border-[3px] border-2
+                 text-primary border-primary
+                  focus:border-[#f8e565] outline-none py-3 
+                  bg-transparent rounded-lg text-xl px-2"
+                required
               />
             </div>
             <div className="flex flex-col space-y-2 relative">
               <label htmlFor="email">
-                <span className="text-xl">Password</span>
+                <span className="text-lg md:text-xl">Password</span>
               </label>
               <input
                 id="password"
                 type={`${isShow ? "password" : "text"}`}
                 name="password"
                 placeholder="Enter Your Password"
-                className="focus:border-[3px] border-2 text-primary border-primary focus:border-[#f8e565] outline-none py-3 bg-transparent rounded-lg text-xl px-2"
+                className="focus:border-[3px] border-2
+                 text-primary border-primary 
+                 focus:border-[#f8e565] outline-none 
+                 py-3 bg-transparent rounded-lg text-xl px-2"
               />
               <div
                 onClick={handleShowPassword}

@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
+import useAuth from "../../../hook/useAuth";
 
 // const pages = ["home", "apartment", "about", "contact"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -21,6 +22,7 @@ const Navbar = () => {
   // const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [isOpenMenu, setIsOpenMenu] = React.useState(false);
+  const { user, logout } = useAuth();
 
   // const handleOpenNavMenu = (event) => {
   //   setAnchorElNav(event.currentTarget);
@@ -37,6 +39,10 @@ const Navbar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   const navLinks = (
@@ -97,19 +103,36 @@ const Navbar = () => {
           Contact
         </Button>
       </NavLink>
-      <NavLink to={`/signIn`}>
+      {user ? (
         <Button
-          className="text-secondary"
+          className="bg-tertiary"
           onClick={() => {
+            handleLogout();
             if (isOpenMenu) {
               setIsOpenMenu(false);
             }
           }}
           sx={{ my: 2, display: "block" }}
+          variant="contained"
         >
-          Sign in
+          Sign out
         </Button>
-      </NavLink>
+      ) : (
+        <NavLink to={`/signIn`}>
+          <Button
+            className="bg-tertiary"
+            onClick={() => {
+              if (isOpenMenu) {
+                setIsOpenMenu(false);
+              }
+            }}
+            sx={{ my: 2, display: "block" }}
+            variant="contained"
+          >
+            Sign in
+          </Button>
+        </NavLink>
+      )}
     </>
   );
 

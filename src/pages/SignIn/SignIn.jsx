@@ -6,11 +6,12 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import useAuth from "../../hook/useAuth";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const [isShow, setIsShow] = useState(false);
 
-  const { signInUser } = useAuth();
+  const { signInUser, signInWithGoogle } = useAuth();
 
   const handleShowPassword = () => {
     setIsShow(!isShow);
@@ -21,10 +22,18 @@ const SignIn = () => {
     const form = e.target;
     const email = form.email.value;
     const pass = form.password.value;
-    console.log({ email, pass });
     signInUser(email, pass)
-      .then((result) => console.log(result.user))
-      .catch((error) => console.log(error.message));
+      .then((result) => {
+        if (result.user) toast.success("User successfully signed in!");
+      })
+      .catch((error) => toast.error(error.message));
+  };
+
+  const handleGoogleSignIn = async () => {
+    const result = await signInWithGoogle();
+    if (result.user) {
+      toast.success("User successfully signed in!");
+    }
   };
 
   return (
@@ -36,6 +45,7 @@ const SignIn = () => {
         <div className=" mx-auto md:w-[600px] py-20 text-primary">
           <h2 className="text-4xl font-semibold">Sign in</h2>
           <Button
+            onClick={handleGoogleSignIn}
             className="my-5 text-primary gap-4 cursor-pointer w-full flex justify-center items-center border-2 border-primary rounded-full py-4 "
             variant="outlined"
           >
