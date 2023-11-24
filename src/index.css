@@ -5,11 +5,15 @@
 @tailwind utilities;
 
 *{
-  font-family: 'Libre Franklin', sans
+  font-family: 'Libre Franklin', sans; 
 }
 
 body {
   background-color: #fefae0;
+}
+
+a.active > button{
+  font-weight: 600;
 }
 
 /* .title-text {

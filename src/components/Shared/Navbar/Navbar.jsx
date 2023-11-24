@@ -18,18 +18,21 @@ import { NavLink } from "react-router-dom";
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [isOpenMenu, setIsOpenMenu] = React.useState(false);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  // console.log("this this", anchorElNav);
+
+  const handleOpenMenu = () => {
+    setIsOpenMenu(!isOpenMenu);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -42,7 +45,11 @@ const Navbar = () => {
       <NavLink to={`/`}>
         <Button
           className="text-secondary"
-          onClick={handleCloseNavMenu}
+          onClick={() => {
+            if (isOpenMenu) {
+              setIsOpenMenu(false);
+            }
+          }}
           sx={{ my: 2, display: "block" }}
         >
           Home
@@ -52,7 +59,11 @@ const Navbar = () => {
       <NavLink to={`/apartment`}>
         <Button
           className="text-secondary"
-          onClick={handleCloseNavMenu}
+          onClick={() => {
+            if (isOpenMenu) {
+              setIsOpenMenu(false);
+            }
+          }}
           sx={{ my: 2, display: "block" }}
         >
           ApartMent
@@ -62,7 +73,11 @@ const Navbar = () => {
       <NavLink to={`/about-us`}>
         <Button
           className="text-secondary"
-          onClick={handleCloseNavMenu}
+          onClick={() => {
+            if (isOpenMenu) {
+              setIsOpenMenu(false);
+            }
+          }}
           sx={{ my: 2, display: "block" }}
         >
           About Us
@@ -72,10 +87,27 @@ const Navbar = () => {
       <NavLink to={`/contact-us`}>
         <Button
           className="text-secondary"
-          onClick={handleCloseNavMenu}
+          onClick={() => {
+            if (isOpenMenu) {
+              setIsOpenMenu(false);
+            }
+          }}
           sx={{ my: 2, display: "block" }}
         >
           Contact
+        </Button>
+      </NavLink>
+      <NavLink to={`/login`}>
+        <Button
+          className="text-secondary"
+          onClick={() => {
+            if (isOpenMenu) {
+              setIsOpenMenu(false);
+            }
+          }}
+          sx={{ my: 2, display: "block" }}
+        >
+          Login
         </Button>
       </NavLink>
     </>
@@ -103,39 +135,23 @@ const Navbar = () => {
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
-              className="text-secondary"
+              className="text-secondary z-10"
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={handleOpenMenu}
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {navLinks}
-              <Button sx={{ ml: 2 }} variant="contained">
-                Login
-              </Button>
-            </Menu>
           </Box>
+          <div
+            className={`${
+              isOpenMenu ? "block" : "hidden"
+            } absolute bg-primary text-secondary z-10 top-14 shadow-xl px-4`}
+          >
+            {navLinks}
+          </div>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             className="text-secondary font-lora"
@@ -155,14 +171,6 @@ const Navbar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {navLinks}
-            <Button
-              variant="contained"
-              className="text-primary bg-tertiary shadow-none"
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, display: "block" }}
-            >
-              Login
-            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
