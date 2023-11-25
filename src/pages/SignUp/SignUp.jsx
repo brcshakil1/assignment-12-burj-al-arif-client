@@ -52,7 +52,7 @@ const SignUp = () => {
 
       // Save user name and profile photo
       await updateUserProfile(name, imageData?.data?.display_url);
-      console.log(result);
+      console.log(result.user);
       // Save user data in Database
     } catch (err) {
       toast.error(`Something went wrong ${err.message}`);

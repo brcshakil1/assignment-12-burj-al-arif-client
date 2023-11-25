@@ -12,11 +12,11 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 
 // const pages = ["home", "apartment", "about", "contact"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
   // const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -140,21 +140,23 @@ const Navbar = () => {
     <AppBar className="bg-primary shadow-none" position="static">
       <Container maxWidth="xl">
         <Toolbar className="border-b border-secondary" disableGutters>
-          <Typography
-            className="text-secondary font-lora"
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontWeight: 600,
-              textDecoration: "none",
-            }}
-          >
-            BURJ AL ARIF
-          </Typography>
+          <Link to="/">
+            <Typography
+              className="text-secondary font-lora"
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: 600,
+                textDecoration: "none",
+              }}
+            >
+              BURJ AL ARIF
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -171,7 +173,7 @@ const Navbar = () => {
           <div
             className={`${
               isOpenMenu ? "block" : "hidden"
-            } absolute bg-primary text-secondary z-10 top-14 shadow-xl px-4`}
+            } absolute bg-white text-secondary z-10 top-14 shadow-xl px-4`}
           >
             {navLinks}
           </div>
@@ -196,35 +198,69 @@ const Navbar = () => {
             {navLinks}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+          {user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open">
+                {user?.photoURL ? (
+                  <div className=" flex items-center justify-center gap-1">
+                    <img
+                      onClick={handleOpenUserMenu}
+                      src={user?.photoURL}
+                      alt={user?.displayName}
+                      className="w-10 h-10 rounded-full object-cover cursor-pointer border-2 border-secondary"
+                    />{" "}
+                  </div>
+                ) : (
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={user?.displayName}
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                )}
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <Typography sx={{ padding: "15px" }} textAlign="center">
+                  <span className="text-secondary font-semibold">
+                    {user?.displayName.slice(0, 15)}...
+                  </span>
+                </Typography>
+                <NavLink to="/dashboard/profile">
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                </NavLink>
+                <NavLink to="/dashboard">
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Dashboard</Typography>
+                  </MenuItem>
+                </NavLink>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    handleLogout();
+                  }}
+                >
+                  <Typography textAlign="center">Sign out</Typography>
                 </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
