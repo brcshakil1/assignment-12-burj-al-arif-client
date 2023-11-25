@@ -9,7 +9,9 @@ const AboutBuilding = () => {
         <SectionTitle title="about burj al arif" justify="justify-center" />
         <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-10 py-8">
           <div className="space-y-3">
-            <h3 className="text-xl font-semibold">Welcome to Burj Al Arif</h3>
+            <h3 className="text-xl text-secondary font-semibold">
+              Welcome to Burj Al Arif
+            </h3>
             <p className="text-tertiary ">
               An epitome of luxury living in the prestigious Gulshan
               neighborhood of Dhaka. Our 10-story architectural masterpiece is
@@ -25,8 +27,8 @@ const AboutBuilding = () => {
               </Button>
             </Link>
           </div>
-          <div className="bg-secondary rounded-xl flex justify-end overflow-hidden">
-            <img className="w-[96%] " src={buildingImg} alt="Burj Al Arif" />
+          <div className="bg-secondary rounded-xl flex justify-center overflow-hidden">
+            <img className="w-[92%] " src={buildingImg} alt="Burj Al Arif" />
           </div>
         </div>
       </div>
