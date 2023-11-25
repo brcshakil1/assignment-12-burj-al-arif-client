@@ -1,12 +1,11 @@
 import { Container } from "@mui/material";
+import Banner from "./Banner/Banner";
 
 const Home = () => {
   return (
     <Container maxWidth="xl">
       <div>
-        <h1 className="font-lora text-secondary text-4xl font-bold">
-          Burj Al Arif HomePage
-        </h1>
+        <Banner />
       </div>
     </Container>
   );

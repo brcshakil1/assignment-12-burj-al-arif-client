@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Experience Unmatched Luxury Living",
+    "description": "Welcome to [Building Name], where opulence meets comfort. Discover a lifestyle beyond imagination in the heart of Gulshan, Dhaka.",
+    "imageSrc": "../src/assets/building-images/banner-image-1.jpg",
+    "altTitle": "Luxury Living"
+  },
+  {
+    "id": 2,
+    "title": "A Masterpiece in Every Detail",
+    "description": "Indulge in the architectural grandeur of [Building Name]. Each floor tells a story of elegance, blending modern design with timeless sophistication.",
+    "imageSrc": "../src/assets/building-images/banner-image-2.jpg",
+    "altTitle": "Architectural Elegance"
+  },
+  {
+    "id": 3,
+    "title": "Luxury Redefined on Every Level",
+    "description": "Explore spacious apartments meticulously designed for comfort and style. Your sanctuary awaits on each floor of our 10-story residence.",
+    "imageSrc": "../src/assets/building-images/banner-image-3.jpg",
+    "altTitle": "Elevated Living Spaces"
+  },
+  {
+    "id": 4,
+    "title": "Gulshan's Finest Address",
+    "description": "Nestled in the prestigious Gulshan neighborhood, [Building Name] offers not just a home but a lifestyle surrounded by upscale amenities and conveniences.",
+    "imageSrc": "../src/assets/building-images/banner-image-4.jpg",
+    "altTitle": "Prime Location Bliss"
+  }
+]
