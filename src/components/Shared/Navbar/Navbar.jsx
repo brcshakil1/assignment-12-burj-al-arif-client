@@ -76,7 +76,7 @@ const Navbar = () => {
         </Button>
       </NavLink>
       {/* about */}
-      <NavLink to={`/about-us`}>
+      <NavLink to={`/about`}>
         <Button
           className="text-secondary"
           onClick={() => {
