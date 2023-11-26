@@ -1,26 +1,41 @@
-import { Container } from "@mui/material";
+import { Box, Button, CircularProgress, Container } from "@mui/material";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import apartmentImg from "../../assets/apartment-images/apartments.jpg";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../hook/useAxiosPublic";
+import { useState } from "react";
+import Pagination from "@mui/material/Pagination";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
+  const [page, setPage] = useState(1);
+  const limit = 6;
 
-  const { data: apartments = [] } = useQuery({
-    queryKey: ["apartments"],
+  const { data: apartments = [], isPending } = useQuery({
+    queryKey: ["apartments", page],
     queryFn: async () => {
-      const res = await axiosPublic.get("/apartments");
+      const res = await axiosPublic.get(
+        `/apartments?page=${page}&limit=${limit}`
+      );
       return res.data;
     },
   });
 
-  console.log(apartments);
+  if (isPending) {
+    return (
+      <div className="min-h-[90vh] grid place-items-center">
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress className="text-secondary" />
+        </Box>
+      </div>
+    );
+  }
+
+  const totalPage = Math.ceil(apartments?.totalApartments / limit);
 
   return (
     <Container maxWidth="xl">
@@ -35,29 +50,45 @@ const Apartments = () => {
             justify="justify-center"
           ></SectionTitle>
         </div>
-        <div>
-          {apartments?.map((apartment) => (
-            <Card key={apartment._id} sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={apartment?.imageSrc}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Lizard
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
+        <div className="grid grid-cols-1 md:md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {apartments?.result?.map((apartment) => (
+            <Card key={apartment?._id}>
+              <CardMedia
+                className="h-[200px] md:h-[250px]"
+                component="img"
+                image={apartment?.imageSrc}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {apartment?.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lizards are a widespread group of squamate reptiles, with over
+                  6,000 species, ranging across all continents except Antarctica
+                </Typography>
+
+                <Button
+                  className="bg-tertiary  font-poppins mt-4"
+                  variant="contained"
+                >
+                  Agreement{" "}
+                </Button>
+              </CardContent>
             </Card>
           ))}
+        </div>
+        <div className="flex justify-center py-10">
+          <Pagination
+            onChange={(e) => {
+              setPage(parseInt(e.target.textContent));
+            }}
+            count={totalPage}
+            color="primary"
+            variant="outlined"
+            hidePrevButton
+            hideNextButton
+          />
         </div>
       </div>
     </Container>
