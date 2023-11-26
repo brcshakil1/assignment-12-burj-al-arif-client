@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import PropTypes from "prop-types";
+import { clearCookie } from "../api/auth";
 
 export const AuthContext = createContext(null);
 
@@ -36,8 +37,9 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const logout = () => {
+  const logout = async () => {
     setLoading(true);
+    await clearCookie();
     return signOut(auth);
   };
 

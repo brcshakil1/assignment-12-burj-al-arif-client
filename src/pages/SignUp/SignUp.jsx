@@ -9,11 +9,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { imageUpload } from "../../api/utils";
 import toast from "react-hot-toast";
 import { getToken, saveUser } from "../../api/auth";
+import { ImSpinner9 } from "react-icons/im";
 
 const SignUp = () => {
   const [isShow, setIsShow] = useState(false);
 
-  const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+  const { createUser, signInWithGoogle, updateUserProfile, loading } =
+    useAuth();
 
   const navigate = useNavigate();
 
@@ -68,24 +70,24 @@ const SignUp = () => {
     } catch (err) {
       toast.error(err.message);
     }
-
-    // const userInfo = {
-    //   name,
-    //   photo,
-    //   email,
-    //   pass,
-    //   role: "user",
-    // };
-    // createUser(email, pass)
-    //   .then((result) => console.log(result.user))
-    //   .catch((error) => console.log(error.message));
   };
 
+  // Handle google sign in
   const handleGoogleSignIn = async () => {
-    const result = await signInWithGoogle();
-    if (result.user) {
-      toast.success("User successfully signed in!");
+    try {
+      // User registration using google
+      const result = await signInWithGoogle();
+
+      // Save user data in Database
+      const dbResponse = await saveUser(result?.user);
+      console.log(dbResponse, "user created");
+
+      // get token
+      await getToken(result?.user?.email);
       navigate("/");
+      toast.success("User created successfully!");
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
@@ -103,10 +105,14 @@ const SignUp = () => {
             variant="outlined"
           >
             {" "}
-            <GoogleIcon />{" "}
-            <span className="text-base md:text-lg font-medium">
-              Sign in with google
-            </span>
+            {loading ? (
+              <ImSpinner9 className="animate-spin text-primary" />
+            ) : (
+              <>
+                <GoogleIcon />{" "}
+                <span className="text-lg font-medium">Sign in with google</span>
+              </>
+            )}
           </Button>
 
           <div className="flex justify-center items-center gap-4 pb-5">
@@ -197,7 +203,11 @@ const SignUp = () => {
                 className="bg-tertiary w-full py-4 text-primary rounded-full text-lg font-medium"
                 variant="contained"
               >
-                Sign up
+                {loading ? (
+                  <ImSpinner9 className="animate-spin text-primary" />
+                ) : (
+                  "Sign up"
+                )}
               </Button>
             </div>
           </form>
