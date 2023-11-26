@@ -15,7 +15,6 @@ const Banner = () => {
   useEffect(() => {
     axios.get("/banner.json").then((res) => setBanners(res.data));
   }, []);
-  console.log(banners);
   return (
     <Container maxWidth="xl">
       <div className="pt-4">

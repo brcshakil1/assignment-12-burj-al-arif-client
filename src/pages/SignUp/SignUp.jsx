@@ -5,14 +5,17 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import useAuth from "../../hook/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { imageUpload } from "../../api/utils";
 import toast from "react-hot-toast";
+import { getToken, saveUser } from "../../api/auth";
 
 const SignUp = () => {
   const [isShow, setIsShow] = useState(false);
 
   const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleShowPassword = () => {
     setIsShow(!isShow);
@@ -52,10 +55,18 @@ const SignUp = () => {
 
       // Save user name and profile photo
       await updateUserProfile(name, imageData?.data?.display_url);
-      console.log(result.user);
+
       // Save user data in Database
+      const dbResponse = await saveUser(result?.user);
+      console.log(dbResponse, "user created");
+
+      // get token
+
+      await getToken(result?.user?.email);
+      navigate("/");
+      toast.success("User created successfully!");
     } catch (err) {
-      toast.error(`Something went wrong ${err.message}`);
+      toast.error(err.message);
     }
 
     // const userInfo = {
@@ -74,6 +85,7 @@ const SignUp = () => {
     const result = await signInWithGoogle();
     if (result.user) {
       toast.success("User successfully signed in!");
+      navigate("/");
     }
   };
 

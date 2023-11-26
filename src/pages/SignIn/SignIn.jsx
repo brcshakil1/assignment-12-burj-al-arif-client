@@ -5,11 +5,12 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import useAuth from "../../hook/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const SignIn = () => {
   const [isShow, setIsShow] = useState(false);
+  const navigate = useNavigate();
 
   const { signInUser, signInWithGoogle } = useAuth();
 
@@ -24,7 +25,10 @@ const SignIn = () => {
     const pass = form.password.value;
     signInUser(email, pass)
       .then((result) => {
-        if (result.user) toast.success("User successfully signed in!");
+        if (result.user) {
+          toast.success("User successfully signed in!");
+        }
+        navigate("/");
       })
       .catch((error) => toast.error(error.message));
   };
@@ -33,6 +37,7 @@ const SignIn = () => {
     const result = await signInWithGoogle();
     if (result.user) {
       toast.success("User successfully signed in!");
+      navigate("/");
     }
   };
 
