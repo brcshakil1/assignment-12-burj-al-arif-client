@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import Swal from "sweetalert2";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,7 +34,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const ManageMembers = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: members } = useQuery({
+  const { data: members, refetch } = useQuery({
     queryKey: ["members"],
     queryFn: async () => {
       const { data } = await axiosSecure.get("/users?role=member");
@@ -41,32 +42,76 @@ const ManageMembers = () => {
     },
   });
 
-  console.log(members);
+  const handleRemove = (member) => {
+    console.log(member);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove his membership!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, I'm sure!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updateUserRole = {
+          role: "user",
+        };
+        axiosSecure
+          .patch(`/users/${member?.email}`, updateUserRole)
+          .then((res) => {
+            if (res?.data?.modifiedCount > 0) {
+              refetch();
+              Swal.fire({
+                title: `Removed ${member?.name}'s membership!`,
+                icon: "success",
+              });
+            }
+          });
+      }
+    });
+  };
 
   return (
     <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="left">Name</StyledTableCell>
-              <StyledTableCell align="left">Email</StyledTableCell>
-              <StyledTableCell align="left">Action</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {members?.map((member) => (
-              <StyledTableRow key={member.name}>
-                <StyledTableCell align="left">{member.name}</StyledTableCell>
-                <StyledTableCell align="left">{member.email}</StyledTableCell>
-                <StyledTableCell align="left">
-                  <Button>Remove</Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {members?.length ? (
+        <TableContainer component={Paper}>
+          <Table
+            className=" md:min-w-[550px] lg:min-w-[750px]"
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow>
+                <StyledTableCell align="left">Name</StyledTableCell>
+                <StyledTableCell align="left">Email</StyledTableCell>
+                <StyledTableCell align="left">Action</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {members?.map((member) => (
+                <StyledTableRow key={member.name}>
+                  <StyledTableCell align="left">{member.name}</StyledTableCell>
+                  <StyledTableCell align="left">{member.email}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    <Button
+                      onClick={() => handleRemove(member)}
+                      className="bg-tertiary font-semibold text-primary"
+                    >
+                      Remove
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <div>
+          <h2 className="text-3xl text secondary font-semibold text-center py-20">
+            There are no members yet!
+          </h2>
+        </div>
+      )}
     </div>
   );
 };

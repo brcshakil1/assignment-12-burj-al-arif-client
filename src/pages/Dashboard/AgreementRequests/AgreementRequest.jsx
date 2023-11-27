@@ -41,8 +41,9 @@ const AgreementRequest = () => {
       );
       if (res.data.modifiedCount > 0) {
         refetch();
-        toast.success("Accepted agreement request");
       }
+      refetch();
+      toast.success("Accepted agreement request");
     }
   };
 
