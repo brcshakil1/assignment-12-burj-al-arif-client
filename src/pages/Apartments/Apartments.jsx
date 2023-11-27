@@ -9,11 +9,16 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../hook/useAxiosPublic";
 import { useState } from "react";
 import Pagination from "@mui/material/Pagination";
+import useAuth from "./../../hook/useAuth";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
   const [page, setPage] = useState(1);
   const limit = 6;
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const { data: apartments = [], isPending } = useQuery({
     queryKey: ["apartments", page],
@@ -36,6 +41,30 @@ const Apartments = () => {
   }
 
   const totalPage = Math.ceil(apartments?.totalApartments / limit);
+
+  const handleAgreement = async (apartment) => {
+    if (!user) {
+      return navigate("/signIn");
+    }
+    console.log(apartment);
+    const agreementInfo = {
+      userName: user?.displayName,
+      userEmail: user?.email,
+      floorNo: apartment?.floorNo,
+      blockName: apartment?.blockName,
+      apartmentNo: apartment?.apartmentNo,
+      rent: apartment?.rent,
+      date: new Date().toDateString(),
+      status: "pending",
+    };
+    const { data } = await axiosPublic.post("/agreements", agreementInfo);
+    console.log(data);
+    if (data.insertedId) {
+      toast.success(
+        "You've successfully done agreement. Wait for the confirmation. Thank You!"
+      );
+    }
+  };
 
   return (
     <Container maxWidth="xl">
@@ -98,6 +127,7 @@ const Apartments = () => {
                 </Typography>
 
                 <Button
+                  onClick={() => handleAgreement(apartment)}
                   className="bg-tertiary  font-poppins mt-4"
                   variant="contained"
                 >

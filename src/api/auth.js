@@ -14,12 +14,19 @@ export const saveUser = async (user) => {
   return data;
 };
 
-// get token from server and set it on local storage
-export const getToken = async (email) => {
-  const { data } = await axiosSecure.post(`/jwt`, { email });
-  // console.log(data);
-  if (data.token) {
-    localStorage.setItem("access-token", data.token);
-  }
-  return data;
-};
+// // get token from server
+// export const getToken = async (email) => {
+//   const { data } = await axiosSecure.post(`/jwt`, { email });
+//   console.log(data);
+//   if (data.token) {
+//     localStorage.setItem("access-token", data.token);
+//   }
+//   return data;
+// };
+
+// remove token from browser
+// export const clearCookie = async () => {
+//   const { data } = await axiosSecure.get(`/logout`);
+//   console.log("token remove from browser -------->", data);
+//   return data;
+// };

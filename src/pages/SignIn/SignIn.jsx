@@ -8,7 +8,7 @@ import useAuth from "../../hook/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
-import { getToken, saveUser } from "../../api/auth";
+import { saveUser } from "../../api/auth";
 
 const SignIn = () => {
   const [isShow, setIsShow] = useState(false);
@@ -28,12 +28,10 @@ const SignIn = () => {
     try {
       // User registration
       const result = await signInUser(email, pass);
-
-      // get token
-      await getToken(result?.user?.email);
-
-      navigate("/");
-      toast.success("User sign in successfully!");
+      if (result) {
+        navigate("/");
+        toast.success("User sign in successfully!");
+      }
     } catch (err) {
       toast.error(err.message);
     }
@@ -48,8 +46,6 @@ const SignIn = () => {
       const dbResponse = await saveUser(result?.user);
       console.log(dbResponse, "user created");
 
-      // get token
-      await getToken(result?.user?.email);
       navigate("/");
       toast.success("Sign in successfully!");
     } catch (err) {

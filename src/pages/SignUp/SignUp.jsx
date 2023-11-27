@@ -8,7 +8,7 @@ import useAuth from "../../hook/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { imageUpload } from "../../api/utils";
 import toast from "react-hot-toast";
-import { getToken, saveUser } from "../../api/auth";
+import { saveUser } from "../../api/auth";
 import { ImSpinner9 } from "react-icons/im";
 
 const SignUp = () => {
@@ -62,9 +62,6 @@ const SignUp = () => {
       const dbResponse = await saveUser(result?.user);
       console.log(dbResponse, "user created");
 
-      // get token
-
-      await getToken(result?.user?.email);
       navigate("/");
       toast.success("User created successfully!");
     } catch (err) {
@@ -82,8 +79,6 @@ const SignUp = () => {
       const dbResponse = await saveUser(result?.user);
       console.log(dbResponse, "user created");
 
-      // get token
-      await getToken(result?.user?.email);
       navigate("/");
       toast.success("User created successfully!");
     } catch (err) {

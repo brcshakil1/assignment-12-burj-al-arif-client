@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 
 const Navbar = () => {
@@ -131,23 +131,21 @@ const Navbar = () => {
     <AppBar className="bg-primary shadow-none" position="static">
       <Container maxWidth="xl">
         <Toolbar className="border-b border-secondary" disableGutters>
-          <Link to="/">
-            <Typography
-              className="text-secondary font-lora"
-              variant="h6"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              BURJ AL ARIF
-            </Typography>
-          </Link>
+          <Typography
+            className="text-secondary font-lora"
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            BURJ AL ARIF
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -226,16 +224,14 @@ const Navbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <Typography sx={{ padding: "15px" }} textAlign="center">
+                <Typography
+                  sx={{ padding: "15px", fontWeight: "600" }}
+                  textAlign="center"
+                >
                   <span className="text-secondary font-semibold">
                     {user?.displayName.slice(0, 15)}...
                   </span>
                 </Typography>
-                <NavLink to="/dashboard/profile">
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Profile</Typography>
-                  </MenuItem>
-                </NavLink>
                 <NavLink to="/dashboard">
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Dashboard</Typography>
