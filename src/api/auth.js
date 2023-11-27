@@ -14,6 +14,19 @@ export const saveUser = async (user) => {
   return data;
 };
 
+export const updateUserRole = async (user, updatedRole) => {
+  const currentUser = {
+    name: user?.displayName,
+    email: user?.email,
+    role: updatedRole,
+    status: "Verified",
+  };
+
+  const { data } = axiosSecure.put(`/users/${user?.email}`, currentUser);
+
+  return data;
+};
+
 // // get token from server
 // export const getToken = async (email) => {
 //   const { data } = await axiosSecure.post(`/jwt`, { email });

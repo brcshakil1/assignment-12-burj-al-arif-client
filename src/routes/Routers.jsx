@@ -16,6 +16,7 @@ import MakePayment from "../pages/Dashboard/MakePayment/MakePayment";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import Announcement from "./../pages/Dashboard/Announcement/Announcement";
 import PrivetRout from "./PrivetRout";
+import AgreementRequest from "../pages/Dashboard/AgreementRequests/AgreementRequest";
 
 const Routers = createBrowserRouter([
   {
@@ -52,9 +53,14 @@ const Routers = createBrowserRouter([
       </PrivetRout>
     ),
     children: [
+      // add
       {
         path: "/dashboard/admin-profile",
         element: <AdminProfile />,
+      },
+      {
+        path: "/dashboard/agreement-requests",
+        element: <AgreementRequest />,
       },
       {
         path: "/dashboard/member-profile",

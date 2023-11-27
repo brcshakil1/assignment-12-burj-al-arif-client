@@ -1,4 +1,4 @@
-import { Announcement, Menu } from "@mui/icons-material";
+import { Announcement, Home, Menu } from "@mui/icons-material";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
@@ -6,6 +6,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import HistoryIcon from "@mui/icons-material/History";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,12 @@ const Dashboard = () => {
               <li className="flex items-center gap-2">
                 <GroupIcon />
                 <NavLink to="/dashboard/manage-members">Manage Members</NavLink>
+              </li>
+              <li className="flex items-center gap-2">
+                <ListAltIcon />
+                <NavLink to="/dashboard/agreement-requests">
+                  Agreement Requests
+                </NavLink>
               </li>
               <li className="flex items-center gap-2">
                 <Announcement />
@@ -84,6 +91,11 @@ const Dashboard = () => {
               </li>
             </>
           )}
+          <hr />
+          <li className="flex items-center gap-2">
+            <Home />
+            <NavLink to="/">Home</NavLink>
+          </li>
         </ul>
       </div>
       <div className="w-full p-5 md:py-10">
