@@ -15,19 +15,10 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 
-// const pages = ["home", "apartment", "about", "contact"];
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
 const Navbar = () => {
-  // const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [isOpenMenu, setIsOpenMenu] = React.useState(false);
   const { user, logout } = useAuth();
-
-  // const handleOpenNavMenu = (event) => {
-  //   setAnchorElNav(event.currentTarget);
-  // };
-  // console.log("this this", anchorElNav);
 
   const handleOpenMenu = () => {
     setIsOpenMenu(!isOpenMenu);

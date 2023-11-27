@@ -11,7 +11,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import PropTypes from "prop-types";
-import { clearCookie } from "../api/auth";
 
 export const AuthContext = createContext(null);
 
@@ -39,7 +38,8 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     setLoading(true);
-    await clearCookie();
+    // remove token from local storage
+    localStorage.removeItem("access-token");
     return signOut(auth);
   };
 

@@ -51,7 +51,7 @@ const SignIn = () => {
       // get token
       await getToken(result?.user?.email);
       navigate("/");
-      toast.success("User sign in successfully!");
+      toast.success("Sign in successfully!");
     } catch (err) {
       toast.error(err.message);
     }

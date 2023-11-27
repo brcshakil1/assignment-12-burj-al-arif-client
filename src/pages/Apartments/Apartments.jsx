@@ -60,12 +60,41 @@ const Apartments = () => {
                 alt="green iguana"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography
+                  className="text-secondary"
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                >
                   {apartment?.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+                <Typography
+                  className="text-secondary"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  Floor No: {apartment?.floorNo}
+                </Typography>
+                <Typography
+                  className="text-secondary"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  Block Name: {apartment?.blockName}
+                </Typography>
+                <Typography
+                  className="text-secondary"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  Apartment No: {apartment?.apartmentNo}
+                </Typography>
+                <Typography
+                  className="text-secondary"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  Rent Per Month: ${apartment?.rent}
                 </Typography>
 
                 <Button
