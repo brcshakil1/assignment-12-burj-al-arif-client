@@ -53,22 +53,10 @@ const Routers = createBrowserRouter([
       </PrivetRout>
     ),
     children: [
-      // add
+      // admin
       {
         path: "/dashboard/admin-profile",
         element: <AdminProfile />,
-      },
-      {
-        path: "/dashboard/agreement-requests",
-        element: <AgreementRequest />,
-      },
-      {
-        path: "/dashboard/member-profile",
-        element: <MemberProfile />,
-      },
-      {
-        path: "/dashboard/user-profile",
-        element: <UserProfile />,
       },
       {
         path: "/dashboard/manage-members",
@@ -79,8 +67,18 @@ const Routers = createBrowserRouter([
         element: <MakeAnnouncement />,
       },
       {
+        path: "/dashboard/agreement-requests",
+        element: <AgreementRequest />,
+      },
+      {
         path: "/dashboard/manage-coupons",
         element: <ManageCoupons />,
+      },
+
+      // members
+      {
+        path: "/dashboard/member-profile",
+        element: <MemberProfile />,
       },
       {
         path: "/dashboard/make-payment",
@@ -90,6 +88,11 @@ const Routers = createBrowserRouter([
         path: "/dashboard/payment-history",
         element: <PaymentHistory />,
       },
+      {
+        path: "/dashboard/user-profile",
+        element: <UserProfile />,
+      },
+
       {
         path: "/dashboard/announcement",
         element: <Announcement />,
