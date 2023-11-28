@@ -73,6 +73,7 @@ const MakeAnnouncement = () => {
           </Button>
         </div>
       </Box>
+      <div></div>
     </div>
   );
 };
