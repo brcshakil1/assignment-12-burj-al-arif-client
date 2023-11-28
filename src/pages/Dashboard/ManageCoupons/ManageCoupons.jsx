@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,7 +51,7 @@ const ManageCoupons = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { data: coupons } = useQuery({
+  const { data: coupons, refetch } = useQuery({
     queryKey: ["coupons"],
     queryFn: async () => {
       const res = await axiosSecure.get("/coupons");
@@ -58,7 +59,31 @@ const ManageCoupons = () => {
     },
   });
 
-  console.log(coupons);
+  const handleAddCoupon = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const code = form.code.value;
+    const discount = parseFloat(form.discount.value);
+    const description = form.description.value;
+
+    if (code === "" || discount === "" || description === "") {
+      return toast.error("Please fill all fields");
+    }
+
+    const coupon = {
+      code,
+      discount,
+      description,
+    };
+    console.log(coupon);
+    const res = await axiosSecure.post("/coupons", coupon);
+    if (res.data.insertedId) {
+      refetch();
+
+      toast.success("You've successfully added a coupon");
+    }
+  };
 
   return (
     <div>
@@ -84,28 +109,22 @@ const ManageCoupons = () => {
             >
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="left">Name</StyledTableCell>
+                  <StyledTableCell align="left">Code</StyledTableCell>
                   <StyledTableCell align="left">Discount</StyledTableCell>
                   <StyledTableCell align="left">Description</StyledTableCell>
-                  <StyledTableCell align="left">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {coupons?.map((coupon) => (
                   <StyledTableRow key={coupon?._id}>
                     <StyledTableCell align="left">
-                      {coupon?.coupon_code}
+                      {coupon?.code}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {coupon?.discount_percentage}%
+                      {coupon?.discount}%
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {coupon?.coupon_description}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <Button className="bg-tertiary font-semibold text-primary">
-                        Remove
-                      </Button>
+                      {coupon?.description}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
@@ -119,18 +138,26 @@ const ManageCoupons = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box component="form" sx={style} noValidate autoComplete="off">
+          <Box
+            onSubmit={handleAddCoupon}
+            component="form"
+            sx={style}
+            noValidate
+            autoComplete="off"
+          >
             <div>
               <TextField
                 sx={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-multiline-flexible"
-                label="Coupon Name"
+                label="Coupon Code"
+                name="code"
                 multiline
               />
               <TextField
                 sx={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-textarea"
                 label="Discount"
+                name="discount"
                 placeholder="Placeholder"
                 multiline
               />
@@ -140,11 +167,12 @@ const ManageCoupons = () => {
                 sx={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-multiline-static"
                 label="Description"
+                name="description"
                 multiline
                 rows={4}
               />
             </div>
-            <Button className="bg-tertiary" variant="contained">
+            <Button type="submit" className="bg-tertiary" variant="contained">
               Submit
             </Button>
           </Box>
