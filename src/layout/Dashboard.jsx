@@ -10,8 +10,8 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
-  let isAdmin = false;
-  let member = true;
+  let isAdmin = true;
+  let member = false;
 
   const handleMenu = () => {
     setIsOpen(!isOpen);

@@ -1,19 +1,15 @@
 import { PropTypes } from "prop-types";
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "./../hook/useAuth";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+
+import Loading from "../components/Loading/Loading";
 
 const PrivetRout = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
 
   if (loading) {
-    return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>
-    );
+    return <Loading />;
   }
 
   if (user) {
