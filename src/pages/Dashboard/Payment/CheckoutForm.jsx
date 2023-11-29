@@ -87,7 +87,25 @@ const CheckoutForm = () => {
       console.log("payment Intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
         setTransactionId(paymentIntent.id);
-        console.log("Transction Id:", transactionId);
+        console.log("Transaction Id:");
+
+        // now save the payment in the database
+        const paymentInfo = {
+          name: user?.displayName,
+          email: user?.email,
+          rentedMonth: localStorage.getItem("rented-month"),
+          rented: totalPrice,
+          transactionId: paymentIntent?.id,
+          agreementId: memberAgreement?._id,
+          floorNo: memberAgreement?.floorNo,
+          blockName: memberAgreement?.blockName,
+          apartmentNo: memberAgreement?.apartmentNo,
+          paymentDate: new Date().toDateString(),
+        };
+
+        axiosSecure.post("/payments", paymentInfo).then((res) => {
+          console.log(res.data);
+        });
       }
     }
   };
