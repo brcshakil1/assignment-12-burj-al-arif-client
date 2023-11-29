@@ -4,26 +4,29 @@ import useAuth from "../../../hook/useAuth";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import { Button, MenuItem } from "@mui/material";
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { Button } from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 const MakePayment = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const [month, setMonth] = useState("");
+  const months = [
+    "",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   const { data: memberAgreement } = useQuery({
     queryKey: ["agreements"],
@@ -36,12 +39,17 @@ const MakePayment = () => {
     },
   });
 
-  console.log(memberAgreement);
+  if (month) {
+    localStorage.setItem("rented-month", month);
+  }
 
   return (
     <div className="grid place-items-center">
       <SectionTitle title="Make Payment" justify="justify-center" />
-      <div className="grid grid-cols-1 py-10 gap-10 w-full md:max-w-[600px] place-items-center">
+      <div className="w-full md:max-w-[600px] flex justify-between pt-10">
+        <h3 className="text-2xl font-semibold">Total Rent: </h3>
+      </div>
+      <div className="grid grid-cols-1 pt-5 pb-10 gap-10 w-full md:max-w-[600px] place-items-center">
         {memberAgreement?.map((agreement) => (
           <Box
             key={agreement._id}
@@ -95,32 +103,47 @@ const MakePayment = () => {
                   }}
                 />
               </div>
-              <div>
+              <div className="flex">
                 <TextField
                   id="outlined-search"
                   label="Rent"
-                  defaultValue={agreement?.rent}
+                  defaultValue={`$${agreement?.rent}`}
                   InputProps={{
                     readOnly: true,
                   }}
                 />
-                <TextField
-                  id="outlined-select"
-                  select
-                  label="Month"
-                  defaultValue="Select Month"
-                  helperText="Please select month"
-                >
-                  {months?.map((month, idx) => (
-                    <MenuItem key={idx} value={month}>
-                      {month}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <div className="flex-1 px-3">
+                  <select
+                    id="month"
+                    onChange={(e) => setMonth(e.target.value)}
+                    className="h-[58px] w-full pl-3  mt-2 rounded-md bg-transparent border border-slate-300"
+                  >
+                    {months.map((month) => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
+                    ))}
+                  </select>
+
+                  {month ? (
+                    ""
+                  ) : (
+                    <p className="text-red-400">Please select a month </p>
+                  )}
+                </div>
               </div>
-              <Button className="mx-2 " variant="contained">
-                Pay
-              </Button>
+
+              {month ? (
+                <NavLink to={`/dashboard/payment/${agreement?._id}`}>
+                  <Button type="button" className="mx-2 " variant="contained">
+                    Pay
+                  </Button>
+                </NavLink>
+              ) : (
+                <Button type="button" className="mx-2" disabled>
+                  Pay
+                </Button>
+              )}
             </div>
           </Box>
         ))}

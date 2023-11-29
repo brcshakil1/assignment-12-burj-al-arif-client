@@ -6,7 +6,6 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import toast from "react-hot-toast";
-import Swal from "sweetalert2";
 
 const AgreementRequest = () => {
   const axiosSecure = useAxiosSecure();
@@ -14,7 +13,7 @@ const AgreementRequest = () => {
   const { data: agreements, refetch } = useQuery({
     queryKey: ["agreement"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/agreements?status=pending");
+      const res = await axiosSecure.get("/agreements");
       return res.data;
     },
   });
@@ -47,32 +46,21 @@ const AgreementRequest = () => {
     }
   };
 
-  const handleReject = (agreement) => {
+  const handleReject = async (agreement) => {
+    const rejectStatus = {
+      status: "checked",
+      confirmationDate: new Date().toDateString(),
+    };
     console.log(agreement);
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, I want to reject it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure
-          .delete(`/agreements-rejected/${agreement?._id}`)
-          .then((res) => {
-            if (res?.data?.deletedCount > 0) {
-              refetch();
-              Swal.fire({
-                title: "Rejected!",
-                text: "Your file has been deleted.",
-                icon: "success",
-              });
-            }
-          });
-      }
-    });
+    // accepted request
+    const { data } = await axiosSecure.patch(
+      `/agreements/${agreement?._id}`,
+      rejectStatus
+    );
+    if (data.modifiedCount > 0) {
+      refetch();
+      toast.success("Reject agreement request");
+    }
   };
 
   return (
@@ -108,20 +96,24 @@ const AgreementRequest = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button
-                onClick={() => handleAccept(agreement)}
-                className="bg-tertiary text-primary font-semibold"
-                variant="contained"
-              >
-                Accept
-              </Button>
-              <Button
-                onClick={() => handleReject(agreement)}
-                className="bg-tertiary text-primary font-semibold"
-                variant="contained"
-              >
-                Reject
-              </Button>
+              {agreement?.status === "pending" && (
+                <>
+                  <Button
+                    onClick={() => handleAccept(agreement)}
+                    className="bg-tertiary text-primary font-semibold"
+                    variant="contained"
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    onClick={() => handleReject(agreement)}
+                    className="bg-tertiary text-primary font-semibold"
+                    variant="contained"
+                  >
+                    Reject
+                  </Button>
+                </>
+              )}
             </CardActions>
           </Card>
         ))}

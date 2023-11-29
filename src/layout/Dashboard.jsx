@@ -19,7 +19,7 @@ const Dashboard = () => {
   console.log(isOpen);
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="w-full md:w-[300px] h-auto md:h-screen bg-secondary text-primary  p-5   md:py-10">
+      <div className="w-full md:w-[300px] h-auto md:min-h-screen bg-secondary text-primary  p-5   md:py-10">
         <Menu
           className="md:hidden block  cursor-pointer"
           onClick={handleMenu}

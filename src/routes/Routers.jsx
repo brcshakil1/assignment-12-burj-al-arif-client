@@ -17,6 +17,7 @@ import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import Announcement from "./../pages/Dashboard/Announcement/Announcement";
 import PrivetRout from "./PrivetRout";
 import AgreementRequest from "../pages/Dashboard/AgreementRequests/AgreementRequest";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 const Routers = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ const Routers = createBrowserRouter([
       {
         path: "/dashboard/member-profile",
         element: <MemberProfile />,
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: <Payment />,
       },
       {
         path: "/dashboard/make-payment",

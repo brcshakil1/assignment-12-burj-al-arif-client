@@ -12,6 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -85,6 +86,32 @@ const ManageCoupons = () => {
     }
   };
 
+  const handleRemove = async (coupon) => {
+    console.log("removed", coupon);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove remove the coupon!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, I'm sure!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/coupons/${coupon?._id}`).then((res) => {
+          if (res?.data?.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: `Coupon has been deleted!`,
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
   return (
     <div>
       <SectionTitle title="Manage Coupons" justify="justify-center" />
@@ -112,6 +139,7 @@ const ManageCoupons = () => {
                   <StyledTableCell align="left">Code</StyledTableCell>
                   <StyledTableCell align="left">Discount</StyledTableCell>
                   <StyledTableCell align="left">Description</StyledTableCell>
+                  <StyledTableCell align="left">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -125,6 +153,14 @@ const ManageCoupons = () => {
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       {coupon?.description}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      <Button
+                        onClick={() => handleRemove(coupon)}
+                        className="bg-tertiary font-semibold text-primary"
+                      >
+                        Remove
+                      </Button>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
