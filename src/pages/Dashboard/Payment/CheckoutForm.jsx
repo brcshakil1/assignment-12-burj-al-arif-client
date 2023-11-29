@@ -1,23 +1,20 @@
-import { Button } from "@mui/material";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
-import useAxiosSecure from "../../../hook/useAxiosSecure";
-import { PropTypes } from "prop-types";
-import useAuth from "../../../hook/useAuth";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import useAxiosSecure from "../../../hook/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import { Box, Button, TextField } from "@mui/material";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useEffect, useState } from "react";
+import useAuth from "../../../hook/useAuth";
 
 const CheckoutForm = () => {
-  const stripe = useStripe();
-  const axiosSecure = useAxiosSecure();
-  const elements = useElements();
-  const [error, setError] = useState("");
-  const { user } = useAuth();
+  const [error, setError] = useState();
+  const [clientSecret, setClientSecret] = useState("");
+  const [transactionId, setTransactionId] = useState("");
   const { id } = useParams();
-  const rentedMonth = localStorage.getItem("rented-month");
-  // const [clientSecret, setClientSecret] = useState("");
-
-  //  const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
+  const stripe = useStripe();
+  const elements = useElements();
+  const { user } = useAuth();
 
   const { data: memberAgreement, isPending } = useQuery({
     queryKey: ["member-agreement"],
@@ -27,28 +24,35 @@ const CheckoutForm = () => {
     },
   });
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
+  const totalPrice = memberAgreement?.rent;
+  console.log(totalPrice);
 
-  console.log("month-------->", rentedMonth);
+  // coupon
+  // const handleCoupon = (e) => {
+  //   e.preventDefault();
+  //   const coupon = e.target.coupon.value;
+  //   console.log(price);
+  // };
 
-  // useEffect(() => {
-  //   axiosSecure.post(`/create-payment-intent`, totalPrice).then((res) => {
-  //     console.log(res.data.clientSecret);
-  //     setClientSecret(res.data.clientSecret);
-  //   });
-  // }, [axiosSecure, totalPrice]);
+  useEffect(() => {
+    axiosSecure
+      .post("/create-payment-intent", { price: totalPrice })
+      .then((res) => {
+        console.log(res.data.clientSecret);
+        setClientSecret(res.data.clientSecret);
+      });
+  }, [axiosSecure, totalPrice]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!stripe || !elements) {
       return;
     }
 
     const card = elements.getElement(CardElement);
 
-    if (!card == null) {
+    if (card === null) {
       return;
     }
 
@@ -58,46 +62,102 @@ const CheckoutForm = () => {
     });
 
     if (error) {
-      console.log("Payment error", error);
       setError(error.message);
+      console.log("Stripe error", error);
     } else {
-      console.log("Payment method", paymentMethod);
       setError("");
+      console.log("Payment-method", paymentMethod);
     }
 
-    // confirm payment
+    // confirm card payment
+    const { paymentIntent, error: paymentConfirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email || "anonymous",
+            name: user?.displayName || "anonymous",
+          },
+        },
+      });
+
+    if (paymentConfirmError) {
+      console.log("confirm error");
+    } else {
+      console.log("payment Intent", paymentIntent);
+      if (paymentIntent.status === "succeeded") {
+        setTransactionId(paymentIntent.id);
+        console.log("Transction Id:", transactionId);
+      }
+    }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+      {isPending ? (
+        <div>loading....</div>
+      ) : (
+        <div>
+          {/* coupon */}
+          <div className="py-10">
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "25ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="outlined-basic"
+                label="Coupon"
+                name="coupon"
+                variant="outlined"
+              />
+              <br />
+              <Button type="submit" variant="contained">
+                Submit Coupon
+              </Button>
+            </Box>
+          </div>
+          <h2 className="text-xl font-semibold">Total rent:{totalPrice}</h2>
+          {/* payment form */}
+          <form onSubmit={handleSubmit}>
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    fontSize: "16px",
+                    color: "#424770",
+                    "::placeholder": {
+                      color: "#aab7c4",
+                    },
+                  },
+                  invalid: {
+                    color: "#9e2146",
+                  },
                 },
-              },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-        <Button variant="contained" type="submit" disabled={!stripe}>
-          Pay
-        </Button>
-        <p className="text-red-400">{error}</p>
-      </form>
+              }}
+            />
+            <Button
+              className="my-2"
+              type="submit"
+              disabled={!stripe || !clientSecret}
+              variant="contained"
+            >
+              Pay
+            </Button>
+          </form>
+          <p className="text-red-400">{error}</p>
+          {transactionId && (
+            <p className="text-green-600">
+              Your transaction id: {transactionId}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
-};
-
-CheckoutForm.propTypes = {
-  agreement: PropTypes.object,
 };
 
 export default CheckoutForm;
