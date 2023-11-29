@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Button, TextField } from "@mui/material";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hook/useAuth";
+import toast from "react-hot-toast";
 
 const CheckoutForm = () => {
   const [error, setError] = useState();
@@ -15,8 +16,13 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const { data: memberAgreement, isPending } = useQuery({
+  const {
+    data: memberAgreement,
+    isPending,
+    refetch,
+  } = useQuery({
     queryKey: ["member-agreement"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/agreements/${id}`);
@@ -35,12 +41,14 @@ const CheckoutForm = () => {
   // };
 
   useEffect(() => {
-    axiosSecure
-      .post("/create-payment-intent", { price: totalPrice })
-      .then((res) => {
-        console.log(res.data.clientSecret);
-        setClientSecret(res.data.clientSecret);
-      });
+    if (totalPrice) {
+      axiosSecure
+        .post("/create-payment-intent", { price: totalPrice })
+        .then((res) => {
+          console.log(res.data.clientSecret);
+          setClientSecret(res.data.clientSecret);
+        });
+    }
   }, [axiosSecure, totalPrice]);
 
   const handleSubmit = async (e) => {
@@ -104,7 +112,11 @@ const CheckoutForm = () => {
         };
 
         axiosSecure.post("/payments", paymentInfo).then((res) => {
-          console.log(res.data);
+          if (res?.data?.result?.insertedId) {
+            toast.success("Your payment was successful!");
+            refetch();
+            navigate("/dashboard/payment-history");
+          }
         });
       }
     }
