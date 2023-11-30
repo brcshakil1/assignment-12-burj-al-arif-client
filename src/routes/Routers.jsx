@@ -18,6 +18,8 @@ import Announcement from "./../pages/Dashboard/Announcement/Announcement";
 import PrivetRout from "./PrivetRout";
 import AgreementRequest from "../pages/Dashboard/AgreementRequests/AgreementRequest";
 import Payment from "../pages/Dashboard/Payment/Payment";
+import AdminRoute from "./AdminRoute";
+import MemberRoute from "./MemberRoute";
 
 const Routers = createBrowserRouter([
   {
@@ -57,50 +59,95 @@ const Routers = createBrowserRouter([
       // admin
       {
         path: "/dashboard/admin-profile",
-        element: <AdminProfile />,
+        element: (
+          <AdminRoute>
+            <AdminProfile />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/manage-members",
-        element: <ManageMembers />,
+        element: (
+          <AdminRoute>
+            <ManageMembers />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/make-announcement",
-        element: <MakeAnnouncement />,
+        element: (
+          <AdminRoute>
+            <MakeAnnouncement />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/agreement-requests",
-        element: <AgreementRequest />,
+        element: (
+          <AdminRoute>
+            <AgreementRequest />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/manage-coupons",
-        element: <ManageCoupons />,
+        element: (
+          <AdminRoute>
+            {" "}
+            <ManageCoupons />
+          </AdminRoute>
+        ),
       },
 
       // members
       {
         path: "/dashboard/member-profile",
-        element: <MemberProfile />,
+        element: (
+          <MemberRoute>
+            <MemberProfile />
+          </MemberRoute>
+        ),
       },
       {
         path: "/dashboard/payment/:id",
-        element: <Payment />,
+        element: (
+          <MemberRoute>
+            <Payment />
+          </MemberRoute>
+        ),
       },
       {
         path: "/dashboard/make-payment",
-        element: <MakePayment />,
+        element: (
+          <MemberRoute>
+            <MakePayment />
+          </MemberRoute>
+        ),
       },
       {
         path: "/dashboard/payment-history",
-        element: <PaymentHistory />,
+        element: (
+          <MemberRoute>
+            <PaymentHistory />
+          </MemberRoute>
+        ),
       },
       {
         path: "/dashboard/user-profile",
-        element: <UserProfile />,
+        element: (
+          <PrivetRout>
+            <UserProfile />
+          </PrivetRout>
+        ),
       },
 
       {
         path: "/dashboard/announcement",
-        element: <Announcement />,
+        element: (
+          <PrivetRout>
+            <Announcement />
+          </PrivetRout>
+        ),
       },
     ],
   },

@@ -117,7 +117,7 @@ const AdminProfile = () => {
                     Available Apartment
                   </Typography>
                   <Typography variant="h5" color="text.secondary">
-                    {percentageAvailableApartments}%
+                    {percentageAvailableApartments.toFixed(2)}%
                   </Typography>
                 </CardContent>
               </Card>
@@ -128,7 +128,7 @@ const AdminProfile = () => {
                     Rented Percentage
                   </Typography>
                   <Typography variant="h5" color="text.secondary">
-                    {percentageRented}%
+                    {percentageRented.toFixed(2)}%
                   </Typography>
                 </CardContent>
               </Card>

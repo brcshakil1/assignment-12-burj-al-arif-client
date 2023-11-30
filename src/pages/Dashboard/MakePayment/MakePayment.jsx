@@ -48,7 +48,7 @@ const MakePayment = () => {
     <div className="grid place-items-center">
       {isPending ? (
         <Loading />
-      ) : (
+      ) : memberAgreement?.length ? (
         <>
           <SectionTitle title="Make Payment" justify="justify-center" />
           <div className="w-full md:max-w-[600px] flex justify-between pt-10">
@@ -158,6 +158,10 @@ const MakePayment = () => {
             ))}
           </div>
         </>
+      ) : (
+        <div>
+          <h3 className="text-2xl font-semibold">No agreement confirm yet!</h3>
+        </div>
       )}
     </div>
   );

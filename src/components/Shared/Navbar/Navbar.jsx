@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
+import logo from "../../../assets/logo.png";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -131,7 +132,7 @@ const Navbar = () => {
     <AppBar className="bg-primary shadow-none" position="static">
       <Container maxWidth="xl">
         <Toolbar className="border-b border-secondary" disableGutters>
-          <Typography
+          {/* <Typography
             className="text-secondary font-lora"
             variant="h6"
             noWrap
@@ -145,7 +146,8 @@ const Navbar = () => {
             }}
           >
             BURJ AL ARIF
-          </Typography>
+          </Typography> */}
+          <img src={logo} className="w-[90px]" alt="Burj Al Arif" />
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
