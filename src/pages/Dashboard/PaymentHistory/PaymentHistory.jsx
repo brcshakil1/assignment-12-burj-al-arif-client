@@ -12,6 +12,7 @@ import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Loading from "../../../components/Loading/Loading";
+import { Box, Button, TextField } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,30 +49,48 @@ const PaymentHistory = () => {
     },
   });
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchMonth = e.target.month.value;
+    if (searchMonth) {
+      setMonth(searchMonth);
+    }
+  };
+
+  console.log(month, "jksdhfkjsadfhjksa");
+
   return (
     <div>
       {isPaymentLoading ? (
         <Loading />
-      ) : (
+      ) : paymentsHistory?.length ? (
         <>
           <SectionTitle title="Payment History" justify="justify-center" />
           <div className="py-10">
-            <div className="w-[150px] py-5">
-              <label className=" font-semibold text-secondary">
-                Search By Month
-              </label>
-              <select
-                id="month"
-                onChange={(e) => setMonth(e.target.value)}
-                className="h-[58px] w-full pl-3  mt-2 rounded-md bg-transparent border border-slate-500"
-              >
-                <option value="">All</option>
-                {paymentsHistory?.map((payment) => (
-                  <option key={payment?._id} value={payment?.rentedMonth}>
-                    {payment?.rentedMonth}
-                  </option>
-                ))}
-              </select>
+            <div className="flex flex-col md:flex-row">
+              <div className="py-10">
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                  onSubmit={handleSearch}
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Search by Month"
+                    name="month"
+                    variant="outlined"
+                  />
+                  <br />
+
+                  <Button type="submit" variant="contained">
+                    Search
+                  </Button>
+                </Box>
+              </div>
             </div>
             <TableContainer component={Paper}>
               <Table
@@ -126,6 +145,12 @@ const PaymentHistory = () => {
             </TableContainer>
           </div>
         </>
+      ) : (
+        <div>
+          <h3 className="text-2xl font-semibold">
+            No payment history available in this month!
+          </h3>
+        </div>
       )}
     </div>
   );

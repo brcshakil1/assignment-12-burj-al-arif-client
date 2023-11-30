@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../../hook/useAuth";
 import toast from "react-hot-toast";
 import useCoupons from "../../../hook/useCoupons";
+import Loading from "../../../components/Loading/Loading";
 
 const CheckoutForm = () => {
   const [error, setError] = useState();
@@ -151,7 +152,7 @@ const CheckoutForm = () => {
   return (
     <div>
       {isPending || isCouponPending ? (
-        <div>loading....</div>
+        <Loading />
       ) : (
         <div>
           {/* coupon */}
