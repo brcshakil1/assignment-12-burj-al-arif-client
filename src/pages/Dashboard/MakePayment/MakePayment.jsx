@@ -108,7 +108,7 @@ const MakePayment = () => {
                       }}
                     />
                   </div>
-                  <div className="flex">
+                  <div className="flex flex-col md:flex-row">
                     <TextField
                       id="outlined-search"
                       label="Rent"

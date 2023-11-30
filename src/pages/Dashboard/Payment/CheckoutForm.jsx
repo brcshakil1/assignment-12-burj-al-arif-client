@@ -6,17 +6,21 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hook/useAuth";
 import toast from "react-hot-toast";
+import useCoupons from "../../../hook/useCoupons";
 
 const CheckoutForm = () => {
   const [error, setError] = useState();
   const [clientSecret, setClientSecret] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [transactionId, setTransactionId] = useState("");
+  const [couponMatched, setCouponMatched] = useState(false);
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [coupons, isCouponPending] = useCoupons();
 
   const {
     data: memberAgreement,
@@ -30,8 +34,30 @@ const CheckoutForm = () => {
     },
   });
 
-  const totalPrice = memberAgreement?.rent;
-  console.log(totalPrice);
+  useEffect(() => {
+    if (memberAgreement) {
+      setTotalPrice(memberAgreement?.rent);
+    }
+  }, [memberAgreement]);
+
+  const handleSubmitCoupon = (e) => {
+    e.preventDefault();
+    const searchCoupon = e.target.coupon.value;
+    const coupon = coupons?.find((coupon) => coupon?.code === searchCoupon);
+    if (coupon) {
+      const discount = parseInt(coupon?.discount);
+      const discountPrice = totalPrice - (totalPrice * discount) / 100;
+      toast.success(`You get ${discount}% discount`);
+      setTotalPrice(discountPrice);
+      setCouponMatched(true);
+    } else {
+      toast.error("Coupon isn't valid");
+    }
+
+    console.log(coupon);
+  };
+
+  console.log(totalPrice, "fsdfafa");
 
   // coupon
   // const handleCoupon = (e) => {
@@ -124,7 +150,7 @@ const CheckoutForm = () => {
 
   return (
     <div>
-      {isPending ? (
+      {isPending || isCouponPending ? (
         <div>loading....</div>
       ) : (
         <div>
@@ -137,6 +163,7 @@ const CheckoutForm = () => {
               }}
               noValidate
               autoComplete="off"
+              onSubmit={handleSubmitCoupon}
             >
               <TextField
                 id="outlined-basic"
@@ -145,9 +172,15 @@ const CheckoutForm = () => {
                 variant="outlined"
               />
               <br />
-              <Button type="submit" variant="contained">
-                Submit Coupon
-              </Button>
+              {couponMatched ? (
+                <Button type="submit" disabled>
+                  Submit Coupon
+                </Button>
+              ) : (
+                <Button type="submit" variant="contained">
+                  Submit Coupon
+                </Button>
+              )}
             </Box>
           </div>
           <h2 className="text-xl font-semibold">Total rent:{totalPrice}</h2>

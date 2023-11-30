@@ -1,8 +1,15 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import useAuth from "../../../hook/useAuth";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../components/Loading/Loading";
+import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 
 const MemberProfile = () => {
   const { user } = useAuth();
@@ -26,59 +33,93 @@ const MemberProfile = () => {
       ) : (
         <>
           {" "}
-          <div className="flex justify-center bg-tertiary py-5">
-            <div className="bg-white border-2 border-secondary w-[200px] py-6 flex justify-center flex-col items-center">
-              <div className="w-[150px] h-[150px] border-2 border-secondary rounded-full">
-                <img
-                  className="object-cover w-full h-full rounded-full"
-                  src={user?.photoURL}
-                  alt="member photo"
-                />
+          <div className="flex justify-center md:justify-start gap-10 items-center flex-col md:flex-row py-5">
+            <div className="">
+              <div className="pb-5">
+                <SectionTitle title="Profile" />
               </div>
-              <Typography className="text-tertiary text-xl pt-2 pb-1">
-                {user?.displayName}
-              </Typography>
-              <Typography className="text-tertiary text-base">
-                {user?.email}
-              </Typography>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-5 py-10">
-            {memberAgreement?.map((agreement) => (
-              <Card key={agreement?._id}>
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {agreement?.userName}
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {agreement?.userEmail}
-                  </Typography>
-                  <Typography variant="body2">
-                    Floor No: {agreement?.floorNo}
-                  </Typography>
-                  <Typography variant="body2">
-                    Block Name: {agreement?.blockName}
-                  </Typography>
-                  <Typography variant="body2">
-                    Apartment No: {agreement?.apartmentNo}
-                  </Typography>
-                  <Typography variant="body2">
-                    Rent: ${agreement?.rent}
-                  </Typography>
-
-                  <Typography variant="body2">
-                    Status: ${agreement?.status}
-                  </Typography>
-                  <Typography variant="body2">
-                    Request Date: {agreement?.date}
-                  </Typography>
-
-                  <Typography variant="body2">
-                    Confirmation Date: ${agreement?.confirmationDate}
-                  </Typography>
-                </CardContent>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    sx={{ maxHeight: "350px", objectFit: "cover" }}
+                    height="140"
+                    image={user?.photoURL}
+                    alt="Admin Profile"
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      className="text-secondary"
+                      component="div"
+                    >
+                      {user?.displayName}
+                    </Typography>
+                    <Typography
+                      className="text-tertiary"
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      {user?.email}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
               </Card>
-            ))}
+            </div>
+            <div>
+              {memberAgreement?.length ? (
+                <div>
+                  <h3 className="text-xl font-semibold text-secondary pt-10 pb-5 underline">
+                    Your Agreements
+                  </h3>
+                  <div className="grid grid-cols-1 md:md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {memberAgreement?.map((agreement) => (
+                      <Card key={agreement?._id}>
+                        <CardContent>
+                          <Typography variant="h5" component="div">
+                            {agreement?.userName}
+                          </Typography>
+                          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                            {agreement?.userEmail}
+                          </Typography>
+                          <Typography variant="body2">
+                            Floor No: {agreement?.floorNo}
+                          </Typography>
+                          <Typography variant="body2">
+                            Block Name: {agreement?.blockName}
+                          </Typography>
+                          <Typography variant="body2">
+                            Apartment No: {agreement?.apartmentNo}
+                          </Typography>
+                          <Typography variant="body2">
+                            Rent: ${agreement?.rent}
+                          </Typography>
+
+                          <Typography variant="body2">
+                            Status: {agreement?.status}
+                          </Typography>
+                          <Typography variant="body2">
+                            Request Date: {agreement?.date}
+                          </Typography>
+
+                          <Typography variant="body2">
+                            Confirmation Date:{" "}
+                            {agreement?.confirmationDate || "None"}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="">
+                  <h3 className="text-xl font-semibold text-center">
+                    There is no agreement!
+                  </h3>
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}

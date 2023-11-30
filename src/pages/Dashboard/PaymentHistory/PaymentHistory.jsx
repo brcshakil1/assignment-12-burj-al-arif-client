@@ -11,6 +11,7 @@ import useAuth from "../../../hook/useAuth";
 import useAxiosSecure from "../../../hook/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import Loading from "../../../components/Loading/Loading";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,89 +38,95 @@ const PaymentHistory = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: paymentsHistory } = useQuery({
+  const { data: paymentsHistory, isPaymentLoading } = useQuery({
     queryKey: ["paymentsHistory", month],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/payments?email=${user?.email}&rentedMonth=${month}`
       );
-      return res.data;
+      return res.data.result;
     },
   });
 
-  console.log(month);
-
   return (
     <div>
-      <SectionTitle title="Payment History" justify="justify-center" />
-      <div className="py-10">
-        <div className="w-[150px] py-5">
-          <label className=" font-semibold text-secondary">
-            Search By Month
-          </label>
-          <select
-            id="month"
-            onChange={(e) => setMonth(e.target.value)}
-            className="h-[58px] w-full pl-3  mt-2 rounded-md bg-transparent border border-slate-500"
-          >
-            <option value="">All</option>
-            {paymentsHistory?.map((payment) => (
-              <option key={payment?._id} value={payment?.rentedMonth}>
-                {payment?.rentedMonth}
-              </option>
-            ))}
-          </select>
-        </div>
-        <TableContainer component={Paper}>
-          <Table
-            className=" md:min-w-[550px] lg:min-w-[750px]"
-            aria-label="customized table"
-          >
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Email</StyledTableCell>
-                <StyledTableCell align="left">Floor</StyledTableCell>
-                <StyledTableCell align="left">Block</StyledTableCell>
-                <StyledTableCell align="left">Apartment no</StyledTableCell>
-                <StyledTableCell align="left">Payment</StyledTableCell>
-                <StyledTableCell align="left">Month</StyledTableCell>
-                <StyledTableCell align="left">Date of payment</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paymentsHistory?.map((payment) => (
-                <StyledTableRow key={payment._id}>
-                  <StyledTableCell align="left">
-                    {payment?.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {payment?.email}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {payment?.floorNo}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {payment?.blockName}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {payment?.apartmentNo}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {payment?.rented}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
+      {isPaymentLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <SectionTitle title="Payment History" justify="justify-center" />
+          <div className="py-10">
+            <div className="w-[150px] py-5">
+              <label className=" font-semibold text-secondary">
+                Search By Month
+              </label>
+              <select
+                id="month"
+                onChange={(e) => setMonth(e.target.value)}
+                className="h-[58px] w-full pl-3  mt-2 rounded-md bg-transparent border border-slate-500"
+              >
+                <option value="">All</option>
+                {paymentsHistory?.map((payment) => (
+                  <option key={payment?._id} value={payment?.rentedMonth}>
                     {payment?.rentedMonth}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {payment?.paymentDate}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+                  </option>
+                ))}
+              </select>
+            </div>
+            <TableContainer component={Paper}>
+              <Table
+                className=" md:min-w-[550px] lg:min-w-[750px]"
+                aria-label="customized table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="left">Name</StyledTableCell>
+                    <StyledTableCell align="left">Email</StyledTableCell>
+                    <StyledTableCell align="left">Floor</StyledTableCell>
+                    <StyledTableCell align="left">Block</StyledTableCell>
+                    <StyledTableCell align="left">Apartment no</StyledTableCell>
+                    <StyledTableCell align="left">Payment</StyledTableCell>
+                    <StyledTableCell align="left">Month</StyledTableCell>
+                    <StyledTableCell align="left">
+                      Date of payment
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {paymentsHistory?.map((payment) => (
+                    <StyledTableRow key={payment._id}>
+                      <StyledTableCell align="left">
+                        {payment?.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.email}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.floorNo}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.blockName}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.apartmentNo}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.rented}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.rentedMonth}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {payment?.paymentDate}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </>
+      )}
     </div>
   );
 };
