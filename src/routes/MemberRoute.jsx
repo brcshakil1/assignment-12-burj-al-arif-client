@@ -15,7 +15,7 @@ const MemberRoute = ({ children }) => {
   if (user && isMember) {
     return children;
   }
-  return <Navigate to="/login"></Navigate>;
+  return <Navigate to="/signIn"></Navigate>;
 };
 
 MemberRoute.propTypes = {

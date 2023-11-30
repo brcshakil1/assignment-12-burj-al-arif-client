@@ -20,11 +20,13 @@ import AgreementRequest from "../pages/Dashboard/AgreementRequests/AgreementRequ
 import Payment from "../pages/Dashboard/Payment/Payment";
 import AdminRoute from "./AdminRoute";
 import MemberRoute from "./MemberRoute";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const Routers = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -43,10 +45,12 @@ const Routers = createBrowserRouter([
   {
     path: "/signIn",
     element: <SignIn />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/signUp",
     element: <SignUp />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/dashboard",
@@ -55,6 +59,7 @@ const Routers = createBrowserRouter([
         <Dashboard />
       </PrivetRout>
     ),
+    errorElement: <ErrorPage />,
     children: [
       // admin
       {

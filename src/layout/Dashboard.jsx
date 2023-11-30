@@ -16,12 +16,10 @@ const Dashboard = () => {
   const [isAdmin, isAdminPending] = useAdmin();
   const [isMember, isMemberPending] = useMember();
 
-  console.log("admin, ", isMember);
-
   const handleMenu = () => {
     setIsOpen(!isOpen);
   };
-  console.log(isOpen);
+
   return (
     <div>
       {isAdminPending || isMemberPending ? (
@@ -114,6 +112,9 @@ const Dashboard = () => {
             </ul>
           </div>
           <div className="w-full p-5 md:py-10">
+            <h2 className="text-xl text-secondary font-bold underline text-center pb-8">
+              Your Dashboard
+            </h2>
             <Outlet />
           </div>
         </div>

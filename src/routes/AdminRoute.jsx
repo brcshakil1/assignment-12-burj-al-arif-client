@@ -15,7 +15,7 @@ const AdminRoute = ({ children }) => {
   if (user && isAdmin) {
     return children;
   }
-  return <Navigate to="/login"></Navigate>;
+  return <Navigate to="/signIn"></Navigate>;
 };
 
 AdminRoute.propTypes = {

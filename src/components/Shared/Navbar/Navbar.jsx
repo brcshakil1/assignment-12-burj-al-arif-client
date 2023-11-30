@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 import logo from "../../../assets/logo.png";
+import { Login, Logout } from "@mui/icons-material";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -81,50 +82,6 @@ const Navbar = () => {
           About Us
         </Button>
       </NavLink>
-      {/* Contact */}
-      <NavLink to={`/contact-us`}>
-        <Button
-          className="text-secondary"
-          onClick={() => {
-            if (isOpenMenu) {
-              setIsOpenMenu(false);
-            }
-          }}
-          sx={{ my: 2, display: "block" }}
-        >
-          Contact
-        </Button>
-      </NavLink>
-      {user ? (
-        <Button
-          className="bg-tertiary"
-          onClick={() => {
-            handleLogout();
-            if (isOpenMenu) {
-              setIsOpenMenu(false);
-            }
-          }}
-          sx={{ my: 2, display: "block" }}
-          variant="contained"
-        >
-          Sign out
-        </Button>
-      ) : (
-        <NavLink to={`/signIn`}>
-          <Button
-            className="bg-tertiary"
-            onClick={() => {
-              if (isOpenMenu) {
-                setIsOpenMenu(false);
-              }
-            }}
-            sx={{ my: 2, display: "block" }}
-            variant="contained"
-          >
-            Sign in
-          </Button>
-        </NavLink>
-      )}
     </>
   );
 
@@ -132,7 +89,7 @@ const Navbar = () => {
     <AppBar className="bg-primary shadow-none" position="static">
       <Container maxWidth="xl">
         <Toolbar className="border-b border-secondary" disableGutters>
-          {/* <Typography
+          <Typography
             className="text-secondary font-lora"
             variant="h6"
             noWrap
@@ -145,9 +102,8 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            BURJ AL ARIF
-          </Typography> */}
-          <img src={logo} className="w-[90px]" alt="Burj Al Arif" />
+            <img src={logo} className="w-[60px]" alt="Burj Al Arif" />
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -183,13 +139,13 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            BURJ AL ARIF
+            <img src={logo} className="w-[100px]" alt="Burj Al Arif" />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {navLinks}
           </Box>
 
-          {user && (
+          {user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open">
                 {user?.photoURL ? (
@@ -245,10 +201,27 @@ const Navbar = () => {
                     handleLogout();
                   }}
                 >
-                  <Typography textAlign="center">Sign out</Typography>
+                  <Typography textAlign="center">
+                    Sign out <Logout />
+                  </Typography>
                 </MenuItem>
               </Menu>
             </Box>
+          ) : (
+            <NavLink to={`/signIn`}>
+              <Button
+                className="bg-tertiary flex items-center"
+                onClick={() => {
+                  if (isOpenMenu) {
+                    setIsOpenMenu(false);
+                  }
+                }}
+                sx={{ my: 2, display: "block" }}
+                variant="contained"
+              >
+                Sign in <Login />
+              </Button>
+            </NavLink>
           )}
         </Toolbar>
       </Container>
