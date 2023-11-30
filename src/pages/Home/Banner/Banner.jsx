@@ -27,7 +27,7 @@ const Banner = () => {
   };
 
   useEffect(() => {
-    axios.get("/banner.json").then((res) => setBanners(res.data));
+    axios.get("./banner.json").then((res) => setBanners(res.data));
   }, []);
 
   return (
@@ -38,16 +38,14 @@ const Banner = () => {
         <div className="mt-4">
           <div className={`${isHidden ? "hidden" : ""}`}>
             <div
-              className={`py-2 rounded-t-md bg-black text-primary flex justify-between items-center px-4 gap-4 `}
+              className={`py-4 rounded-t-md bg-black text-primary flex justify-between items-center px-4 gap-4 `}
             >
               <Button
                 onClick={handleGetCoupon}
-                className={`text-primary border border-primary ${
-                  showCoupon && "hidden"
-                }`}
-                variant="outlined"
+                className={`text-primary font-bold ${showCoupon && "hidden"}`}
+                variant="contained"
               >
-                Coupon
+                See coupon for discount
               </Button>
               <div className={showCoupon ? "" : "hidden"}>
                 <p className="text-primary">
@@ -83,7 +81,7 @@ const Banner = () => {
               modules={[Autoplay, Pagination]}
               className="mySwiper"
             >
-              {banners.map((banner) => (
+              {banners?.map((banner) => (
                 <SwiperSlide key={banner.id}>
                   <div
                     className="w-full min-h-[40vh] md:min-h-[85vh] bg-center bg-no-repeat bg-cover  flex justify-end"

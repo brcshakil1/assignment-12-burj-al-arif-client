@@ -130,7 +130,7 @@ const PaymentHistory = () => {
                         {payment?.apartmentNo}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {payment?.rented}
+                        ${payment?.rented}
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         {payment?.rentedMonth}
