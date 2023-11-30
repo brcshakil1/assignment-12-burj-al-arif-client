@@ -87,7 +87,7 @@ const Banner = () => {
                 <SwiperSlide key={banner.id}>
                   <div
                     className="w-full min-h-[40vh] md:min-h-[85vh] bg-center bg-no-repeat bg-cover  flex justify-end"
-                    style={{ backgroundImage: `url(${banner.imageSrc})` }}
+                    style={{ backgroundImage: `url(${banner?.imageSrc})` }}
                   >
                     {/* <div className=" hidden md:block"></div> */}
                     <div
