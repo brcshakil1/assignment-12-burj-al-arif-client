@@ -26,4 +26,5 @@ https://burj-al-arif-6511c.web.app
 - Front-end: HTML, Tailwind, Material UI, JS and React.js
 - Back-end : Express.js, Node.js, and MongoDB
 - Payment System: React Stripe.js
-  Furthermore, to fortify user security and streamline authentication processes, I have seamlessly integrated Firebase Authentication. For efficient deployment, I have utilized Firebase hosting.
+  
+- Furthermore, to fortify user security and streamline authentication processes, I have seamlessly integrated Firebase Authentication. For efficient deployment, I have utilized Firebase hosting.
