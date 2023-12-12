@@ -21,6 +21,7 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import AdminRoute from "./AdminRoute";
 import MemberRoute from "./MemberRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import AddApartment from "../pages/Dashboard/AddApartment/AddApartment";
 
 const Routers = createBrowserRouter([
   {
@@ -67,6 +68,14 @@ const Routers = createBrowserRouter([
         element: (
           <AdminRoute>
             <AdminProfile />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-apartment",
+        element: (
+          <AdminRoute>
+            <AddApartment />
           </AdminRoute>
         ),
       },

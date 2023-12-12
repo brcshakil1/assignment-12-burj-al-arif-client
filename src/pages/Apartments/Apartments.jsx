@@ -92,7 +92,7 @@ const Apartments = () => {
             justify="justify-center"
           ></SectionTitle>
         </div>
-        <div>
+        <div className="pb-5">
           <FormControl className="w-28">
             <InputLabel id="demo-simple-select-label">
               Filter by floor

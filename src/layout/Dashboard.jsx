@@ -10,6 +10,7 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import useAdmin from "../hook/useAdmin";
 import useMember from "../hook/useMember";
 import Loading from "../components/Loading/Loading";
+import AddIcon from "@mui/icons-material/Add";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,6 +51,12 @@ const Dashboard = () => {
                     <GroupIcon />
                     <NavLink to="/dashboard/manage-members">
                       Manage Members
+                    </NavLink>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <AddIcon />
+                    <NavLink to="/dashboard/add-apartment">
+                      Add Apartment
                     </NavLink>
                   </li>
                   <li className="flex items-center gap-2">
