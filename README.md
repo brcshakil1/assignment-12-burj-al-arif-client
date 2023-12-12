@@ -20,3 +20,11 @@ https://burj-al-arif-6511c.web.app
 - Only admin and manage accouncement of all member and user can see the announcement
 - admin profile has all the details of the website.
 - Responsive and user friendly
+
+## Technologies
+
+- Front-end: HTML, Tailwind, Material UI, JS and React.js
+- Back-end : Express.js, Node.js, and MongoDB
+- Payment System: React Stripe.js
+  
+- Furthermore, to fortify user security and streamline authentication processes, I have seamlessly integrated Firebase Authentication. For efficient deployment, I have utilized Firebase hosting.
