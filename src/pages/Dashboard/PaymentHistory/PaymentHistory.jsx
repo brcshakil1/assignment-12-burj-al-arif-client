@@ -57,8 +57,6 @@ const PaymentHistory = () => {
     }
   };
 
-  console.log(month, "jksdhfkjsadfhjksa");
-
   return (
     <div>
       {isPaymentLoading ? (

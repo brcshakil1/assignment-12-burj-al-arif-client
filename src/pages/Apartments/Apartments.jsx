@@ -1,4 +1,13 @@
-import { Box, Button, CircularProgress, Container } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import apartmentImg from "../../assets/apartment-images/apartments.jpg";
 import Card from "@mui/material/Card";
@@ -15,16 +24,18 @@ import toast from "react-hot-toast";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
+  // floor number
+  const [floor, setFloor] = useState(0);
   const [page, setPage] = useState(1);
   const limit = 6;
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const { data: apartments = [], isPending } = useQuery({
-    queryKey: ["apartments", page],
+    queryKey: ["apartments", page, floor],
     queryFn: async () => {
       const res = await axiosPublic.get(
-        `/apartments?page=${page}&limit=${limit}`
+        `/apartments?floorNo=${floor}&page=${page}&limit=${limit}`
       );
       return res.data;
     },
@@ -66,6 +77,8 @@ const Apartments = () => {
     }
   };
 
+  console.log(floor);
+
   return (
     <Container maxWidth="xl">
       <div>
@@ -78,6 +91,31 @@ const Apartments = () => {
             title="Apartments"
             justify="justify-center"
           ></SectionTitle>
+        </div>
+        <div>
+          <FormControl className="w-28">
+            <InputLabel id="demo-simple-select-label">
+              Filter by floor
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={floor}
+              label="Floor Number"
+              onChange={(e) => setFloor(e.target.value)}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={6}>6</MenuItem>
+              <MenuItem value={7}>7</MenuItem>
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={9}>9</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div className="grid grid-cols-1 md:md:grid-cols-2 lg:grid-cols-3 gap-5">
           {apartments?.result?.map((apartment) => (
