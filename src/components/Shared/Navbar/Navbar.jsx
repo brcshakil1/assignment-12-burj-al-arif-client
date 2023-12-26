@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 import logo from "../../../assets/logo.png";
@@ -124,7 +123,6 @@ const Navbar = () => {
           >
             {navLinks}
           </div>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             className="text-secondary font-lora"
             variant="h5"
