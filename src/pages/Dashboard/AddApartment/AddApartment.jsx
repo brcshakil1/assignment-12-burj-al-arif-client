@@ -10,7 +10,7 @@ const AddApartment = () => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const floorNo = form.floorNo.value;
+    const floorNo = parseInt(form.floorNo.value);
     const blockName = form.blockName.value;
     const apartmentNo = form.apartmentNo.value;
     const rent = form.rent.value;

@@ -45,7 +45,7 @@ const Banner = () => {
                 className={`text-primary font-bold ${showCoupon && "hidden"}`}
                 variant="contained"
               >
-                See coupon for discount
+                Show me coupon
               </Button>
               <div className={showCoupon ? "" : "hidden"}>
                 <p className="text-primary">
