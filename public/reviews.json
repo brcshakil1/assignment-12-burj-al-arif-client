@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Bayazidur Rahman Chowdhury",
+    "img": "https://i.ibb.co/FJBq68L/github-Profile2.png",
+    "review": "Great experience living in this apartment. The amenities are top-notch, and the location is convenient.",
+    "rating": 5
+  },
+  {
+    "name": "Shahid Ahmed",
+    "img": "https://i.ibb.co/4VGDgP4/shahid.jpg",
+    "review": "I love the spacious layout of my apartment. The maintenance team is quick to respond, making it a comfortable living environment.",
+    "rating": 4
+  },
+  {
+    "name": "Imran Ahmed",
+    "img": "https://i.ibb.co/dWYXNrQ/imran.jpg",
+    "review": "The Burj Al Arif is very professional, and the online services make renting hassle-free. Highly recommend!",
+    "rating": 5
+  },
+  {
+    "name": "Md Arif Khan",
+    "img": "https://i.ibb.co/Cm44XxX/arif.png",
+
+    "review": "Good value for the price. The staff is friendly, and the leasing process was smooth.",
+    "rating": 3
+  },
+  {
+    "name": "Abdus Samad",
+    "img": "https://i.ibb.co/5czHnZh/samad.png",
+    "review": "The location is excellent, but there have been some issues with maintenance. Overall, a decent experience.",
+    "rating": 3
+  }
+]
