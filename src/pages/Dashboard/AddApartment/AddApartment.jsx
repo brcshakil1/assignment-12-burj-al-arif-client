@@ -38,7 +38,7 @@ const AddApartment = () => {
         }
       }
       // Save user data in Database
-      //   console.log(apartment);
+      //   //console.log(apartment);
     } catch (err) {
       toast.error(err.message);
     }

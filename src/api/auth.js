@@ -30,7 +30,7 @@ export const updateUserRole = async (user, updatedRole) => {
 // // get token from server
 // export const getToken = async (email) => {
 //   const { data } = await axiosSecure.post(`/jwt`, { email });
-//   console.log(data);
+//   //console.log(data);
 //   if (data.token) {
 //     localStorage.setItem("access-token", data.token);
 //   }
@@ -40,6 +40,6 @@ export const updateUserRole = async (user, updatedRole) => {
 // remove token from browser
 // export const clearCookie = async () => {
 //   const { data } = await axiosSecure.get(`/logout`);
-//   console.log("token remove from browser -------->", data);
+//   //console.log("token remove from browser -------->", data);
 //   return data;
 // };

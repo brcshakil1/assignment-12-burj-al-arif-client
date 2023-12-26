@@ -44,7 +44,7 @@ const SignIn = () => {
 
       // Save user data in Database
       const dbResponse = await saveUser(result?.user);
-      console.log(dbResponse, "user created");
+      //console.log(dbResponse, "user created");
 
       navigate("/");
       toast.success("Sign in successfully!");

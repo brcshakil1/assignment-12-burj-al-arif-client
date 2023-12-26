@@ -53,7 +53,7 @@ const AdminProfile = () => {
   const percentageAvailableApartments =
     (availableApartments / totalApartments) * 100;
 
-  console.log(paymentsHistory);
+  //console.log(paymentsHistory);
 
   return (
     <div className="">

@@ -9,7 +9,7 @@ const useMember = () => {
     queryKey: [user?.email, "isMember"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user/admin/${user?.email}`);
-      console.log(res.data);
+      //console.log(res.data);
       return res.data.member;
     },
   });

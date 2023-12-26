@@ -55,16 +55,16 @@ const CheckoutForm = () => {
       toast.error("Coupon isn't valid");
     }
 
-    console.log(coupon);
+    //console.log(coupon);
   };
 
-  console.log(totalPrice, "fsdfafa");
+  //console.log(totalPrice, "fsdfafa");
 
   // coupon
   // const handleCoupon = (e) => {
   //   e.preventDefault();
   //   const coupon = e.target.coupon.value;
-  //   console.log(price);
+  //   //console.log(price);
   // };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const CheckoutForm = () => {
       axiosSecure
         .post("/create-payment-intent", { price: totalPrice })
         .then((res) => {
-          console.log(res.data.clientSecret);
+          //console.log(res.data.clientSecret);
           setClientSecret(res.data.clientSecret);
         });
     }
@@ -98,10 +98,10 @@ const CheckoutForm = () => {
 
     if (error) {
       setError(error.message);
-      console.log("Stripe error", error);
+      //console.log("Stripe error", error);
     } else {
       setError("");
-      console.log("Payment-method", paymentMethod);
+      //console.log("Payment-method", paymentMethod);
     }
 
     // confirm card payment
@@ -117,12 +117,12 @@ const CheckoutForm = () => {
       });
 
     if (paymentConfirmError) {
-      console.log("confirm error");
+      //console.log("confirm error");
     } else {
-      console.log("payment Intent", paymentIntent);
+      //console.log("payment Intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
         setTransactionId(paymentIntent.id);
-        console.log("Transaction Id:");
+        //console.log("Transaction Id:");
 
         // now save the payment in the database
         const paymentInfo = {

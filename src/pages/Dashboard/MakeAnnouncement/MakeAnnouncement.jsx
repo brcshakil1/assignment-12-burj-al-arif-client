@@ -71,7 +71,7 @@ const MakeAnnouncement = () => {
       description,
       date,
     };
-    console.log(announcement);
+    //console.log(announcement);
     const res = await axiosSecure.post("/announcements", announcement);
     if (res.data.insertedId)
       toast.success("You've successfully added an announcement!");

@@ -57,7 +57,7 @@ const Apartments = () => {
     if (!user) {
       return navigate("/signIn");
     }
-    console.log(apartment);
+    // //console.log(apartment);
     const agreementInfo = {
       userName: user?.displayName,
       userEmail: user?.email,
@@ -69,7 +69,7 @@ const Apartments = () => {
       status: "pending",
     };
     const { data } = await axiosPublic.post("/agreements", agreementInfo);
-    console.log(data);
+    // //console.log(data);
     if (data.insertedId) {
       toast.success(
         "You've successfully done agreement. Wait for the confirmation. Thank You!"
@@ -77,7 +77,7 @@ const Apartments = () => {
     }
   };
 
-  console.log(floor);
+  //console.log(floor);
 
   return (
     <Container maxWidth="xl">

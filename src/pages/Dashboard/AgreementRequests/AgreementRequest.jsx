@@ -51,7 +51,7 @@ const AgreementRequest = () => {
       status: "checked",
       confirmationDate: new Date().toDateString(),
     };
-    console.log(agreement);
+    //console.log(agreement);
     // accepted request
     const { data } = await axiosSecure.patch(
       `/agreements/${agreement?._id}`,

@@ -188,7 +188,7 @@ const Navbar = () => {
                     {user?.displayName.slice(0, 15)}...
                   </span>
                 </Typography>
-                <NavLink to="/dashboard">
+                <NavLink to="/dashboard/profile">
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Dashboard</Typography>
                   </MenuItem>

@@ -6,9 +6,7 @@ import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
 import About from "../pages/About/About";
 import Dashboard from "../layout/Dashboard";
-import AdminProfile from "../pages/Dashboard/AdminProfile/AdminProfile";
-import MemberProfile from "../pages/Dashboard/MemberProfile/MemberProfile";
-import UserProfile from "../pages/Dashboard/UserProfile/UserProfile";
+
 import ManageMembers from "../pages/Dashboard/ManageMembers/ManageMembers";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement/MakeAnnouncement";
 import ManageCoupons from "../pages/Dashboard/ManageCoupons/ManageCoupons";
@@ -22,6 +20,7 @@ import AdminRoute from "./AdminRoute";
 import MemberRoute from "./MemberRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import AddApartment from "../pages/Dashboard/AddApartment/AddApartment";
+import Profile from "../pages/Dashboard/AddApartment/Profile/Profile";
 
 const Routers = createBrowserRouter([
   {
@@ -64,10 +63,18 @@ const Routers = createBrowserRouter([
     children: [
       // admin
       {
+        path: "/dashboard/profile",
+        element: (
+          <PrivetRout>
+            <Profile />
+          </PrivetRout>
+        ),
+      },
+      {
         path: "/dashboard/admin-profile",
         element: (
           <AdminRoute>
-            <AdminProfile />
+            <Profile />
           </AdminRoute>
         ),
       },
@@ -118,7 +125,7 @@ const Routers = createBrowserRouter([
         path: "/dashboard/member-profile",
         element: (
           <MemberRoute>
-            <MemberProfile />
+            <Profile />
           </MemberRoute>
         ),
       },
@@ -150,7 +157,7 @@ const Routers = createBrowserRouter([
         path: "/dashboard/user-profile",
         element: (
           <PrivetRout>
-            <UserProfile />
+            <Profile />
           </PrivetRout>
         ),
       },

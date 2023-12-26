@@ -77,7 +77,7 @@ const ManageCoupons = () => {
       discount,
       description,
     };
-    console.log(coupon);
+    //console.log(coupon);
     const res = await axiosSecure.post("/coupons", coupon);
     if (res.data.insertedId) {
       refetch();
@@ -87,7 +87,7 @@ const ManageCoupons = () => {
   };
 
   const handleRemove = async (coupon) => {
-    console.log("removed", coupon);
+    //console.log("removed", coupon);
 
     Swal.fire({
       title: "Are you sure?",

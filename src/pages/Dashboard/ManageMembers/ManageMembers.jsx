@@ -49,7 +49,7 @@ const ManageMembers = () => {
   });
 
   const handleRemove = (member) => {
-    console.log(member);
+    //console.log(member);
     Swal.fire({
       title: "Are you sure?",
       text: "You want to remove his membership!",
