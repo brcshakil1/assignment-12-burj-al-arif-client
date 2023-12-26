@@ -15,25 +15,25 @@ const Facilities = () => {
     },
   });
   return (
-    <div className="bg-tertiary my-20 py-5 md:py-14">
-      <div className=" md:hidden grid gap-1">
+    <div className="bg-tertiary my-20 py-10 md:py-14">
+      <div className=" md:hidden grid ">
         <img
-          className="w-full h-[100px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+          className="w-full h-[120px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
           src={pool}
           alt="swimming pool"
         />
         <img
-          className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+          className="w-full h-[120px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
           src={cat}
           alt="cat"
         />
         <img
-          className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+          className="w-full h-[120px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
           src={parking}
           alt="parking"
         />
         <img
-          className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+          className="w-full h-[120px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
           src={fitness}
           alt="fitness"
         />
@@ -44,22 +44,22 @@ const Facilities = () => {
       >
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-2 w-full md:flex-1">
           <img
-            className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+            className="w-full  md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
             src={pool}
             alt="swimming pool"
           />
           <img
-            className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+            className="w-full  md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
             src={cat}
             alt="cat"
           />
           <img
-            className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+            className="w-full md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
             src={parking}
             alt="parking"
           />
           <img
-            className="w-full h-[80px] md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
+            className="w-full  md:h-[200px] object-cover transition-all duration-300 ease-linear hover:scale-105"
             src={fitness}
             alt="fitness"
           />
