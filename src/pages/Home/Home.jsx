@@ -17,8 +17,8 @@ const Home = () => {
     });
   }, []);
   return (
-    <div>
-      <div data-aos="fade-down">
+    <div className="overflow-hidden">
+      <div>
         <Banner />
       </div>
       <div data-aos="fade-up">

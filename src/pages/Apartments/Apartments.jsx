@@ -81,7 +81,7 @@ const Apartments = () => {
   //console.log(floor);
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" className="overflow-hidden">
       {isPending ? (
         <div className="min-h-[90vh] grid place-items-center">
           <Box sx={{ display: "flex" }}>
